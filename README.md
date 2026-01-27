@@ -34,11 +34,11 @@ How to install ollama?
 - Go to "https://ollama.com/download" and download the OllamaSetup.exe
 - or maybe you could try `pip install ollama` in your terminal
  for this setup, i embbeded the `llama3.2:1b` (lightweight) but you can modify them
-- To install the LLM you can run `ollama run llama3.2:1b` (easiest way)
+- To install the LLM you can run `ollama run llama3.2:1b` (easiest way) in your terminal
 - You can choose models from "https://ollama.com/search"
 - If you choose other models, please modify;
    model_name: llama3.2:1b
-      FLoc: config.yaml on Line 2
+      FileLoc: config.yaml on Line 2
 
    MODEL_NAME = cfg.get('model_name', 'llama3.2:1b')
-      FLoc: raven.py on Line 113
+      FileLoc: raven.py on Line 113
