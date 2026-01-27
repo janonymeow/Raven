@@ -1,0 +1,13 @@
+model_backend: ollama
+model_name: llama3.2:1b
+ollama_cli: ollama
+
+enable_voice: true
+enable_tts: true
+
+logs_dir: logs
+drafts_dir: RavenDrafts
+
+allow_power: true
+whitelist_file:  
+  browser : C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe
