@@ -2,7 +2,7 @@ import os, subprocess
 from pathlib import Path
 
 def load_whitelist(cfg):
-    return cfg.get('app_whitelist', {})
+    return cfg.get('whitelist_file', {})
 
 def find_app_key(app_name, whitelist):
     key = app_name.lower().strip()
