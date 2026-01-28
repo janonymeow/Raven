@@ -70,7 +70,7 @@ def boot_animation():
         filled = "█" * i
         empty = "-" * (bar_len - i)
         pct = int((i / bar_len) * 100)
-        sys.stdout.write(f"\r[{Fore.GREEN}{filled}{Style.RESET_ALL}{empty}] {pct}%")
+        sys.stdout.write(f"\r[{Fore.GREEN}{filled}{Style.RESET_ALL}{Fore.WHITE}{empty}{Fore.WHITE}] {pct}%")
         sys.stdout.flush()
         time.sleep(0.04 if i < bar_len*0.7 else 0.08)
     print("\n")
@@ -80,10 +80,10 @@ def boot_animation():
 
 def loading_bar():
     clear()
-    print(f"{CYAN}Initializing neural core...{RESET}")
+    print(f"{Fore.CYAN}Initializing neural core...{RESET}")
     for i in range(0, 101, 3):
         bar = '█' * (i // 3)
-        sys.stdout.write(f"\r{LIME}[{bar:<34}] {i}%{RESET}")
+        sys.stdout.write(f"\r{Fore.LIME}[{bar:<34}] {i}%{RESET}")
         sys.stdout.flush()
         time.sleep(0.02)
     print('\nBoot sequence complete.')
@@ -95,7 +95,7 @@ def boot_sequence():
     boot_animation()
     loading_bar()
     print(
-        f"{LIME}\n╔═══════════════════════════════════════╗\n║   RAVEN        -    SYSTEM ONLINE     ║\n╚═══════════════════════════════════════╝\n{RESET}")
+        f"{Fore.LIME}\n╔═══════════════════════════════════════╗\n║   {Fore.WHITE}RAVEN        -    SYSTEM ONLINE     {Fore.LIME}║\n╚═══════════════════════════════════════╝\n{RESET}")
     log('Boot completed')
 
 
@@ -104,7 +104,7 @@ voice = VoiceEngine(enable_tts=cfg.get('enable_tts', True)) if cfg.get('enable_v
 
 
 def speak(text):
-    print(f"{CYAN}RAVEN: {text}")
+    print(f"{Fore.CYAN}RAVEN: {Fore.WHITE}{text}")
     if voice:
         voice.speak(text)
 
@@ -169,7 +169,7 @@ def handle_generate(cmd):
     title = parts[1].strip().replace(' ', '_')
     filename = f"{int(time.time())}_{title}.py"
     path = DRAFTS / filename
-    sample = f"# Auto-generated draft by RAVEN\n# Title: {title}\nprint('Hello from {title}')\n"
+    sample = f" Auto-generated draft by RAVEN\n Title: {title}\nprint('Hello from {title}')\n"
     with open(path, 'w', encoding='utf-8') as f:
         f.write(sample)
     speak(f'Generated draft saved to {path.name} in RavenDrafts.')
@@ -198,9 +198,9 @@ def shutdown_animation():
     speak('Shutting down core systems.')
     print('\nInitiating shutdown sequence...\n')
     for i in range(5, 0, -1):
-        print(f'Powering down in {i}...')
+        print(f '{i}')
         time.sleep(1)
-    clear()
+    clear()    
     if os.name != 'nt':
         for _ in range(20):
             print(''.join(['|' if (i % 3 == 0) else ' ' for i in range(80)]))
@@ -243,18 +243,18 @@ def main_loop():
                 text = cmd.split(' ', 1)[1]
                 speak(text)
                 continue
-            if lc == 'listen':
-                if voice:
-                    speak('Listening now...')
-                    txt, err = voice.listen_once()
-                    if txt:
-                        print('Heard >', txt)
-                        speak('Got it.')
-                    else:
-                        speak(f'Listen failed: {err}')
-                else:
-                    speak('Voice disabled in config.')
-                continue
+            # if lc == 'listen':
+            #     if voice:
+            #         speak('Listening now...')
+            #         txt, err = voice.listen_once()
+            #         if txt:
+            #             print('Heard >', txt)
+            #             speak('Got it.')
+            #         else:
+            #             speak(f'Listen failed: {err}')
+            #     else:
+            #         speak('Voice disabled in config.')
+            #     continue
             speak('RAVEN is thinking...')
             response = ask_model(cmd)
             print('\nRAVEN >\n', response)
